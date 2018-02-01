@@ -1,12 +1,12 @@
 {
-  "name": "postcss-postcss-layouts",
+  "name": "postcss-layouts",
   "version": "0.0.1",
   "description": "A shorthand to apply sensible default layout characteristics using a preferred method.",
   "author": "Gavin <someotter@tadpot.com>",
   "license": "CC0-1.0",
-  "repository": "mindthetic/postcss-postcss-layouts",
-  "homepage": "https://github.com/mindthetic/postcss-postcss-layouts#readme",
-  "bugs": "https://github.com/mindthetic/postcss-postcss-layouts/issues",
+  "repository": "mindthetic/postcss-layouts",
+  "homepage": "https://github.com/mindthetic/postcss-layouts#readme",
+  "bugs": "https://github.com/mindthetic/postcss-layouts/issues",
   "main": "index.bundle.js",
   "module": "index.js",
   "files": [
