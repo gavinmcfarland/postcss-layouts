@@ -30,6 +30,11 @@ function transformLayout(decl) {
 			value: "1"
 		});
 
+		level2Rule.append({
+			prop: "flex-basis",
+			value: "0"
+		});
+
 
 
 		for (let _i = 0; _i < values.length; _i++) {
@@ -198,8 +203,7 @@ function transformLayout(decl) {
 export default postcss.plugin("postcss-postcss-layouts", opts => {
 	console.log("opts", opts);
 
-	return (root, result) => {
-		console.log("root, result", root, result);
+	return (root) => {
 		root.walkDecls(function(decl) {
 			if (decl.prop === "layout") {
 				transformLayout(decl);
