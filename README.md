@@ -7,6 +7,9 @@
 
 A shorthand to apply sensible default layout characteristics using a preferred method.
 
+```
+layout: flex | [grow, shrink] | [wrap, no-wrap] | [open, closed] | [row, column]
+```
 
 Flex layout:
 
@@ -16,7 +19,7 @@ Flex layout:
 }
 ```
 
-This gives all direct child elements characteristics of `display: flex` allowing you to vertically align elements and adjust their spacing. All direct child elements of that container are full width until a width is applied to any of its children.
+By default all children are flex by default.
 
 
 Inline-block:
