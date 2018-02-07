@@ -1,4 +1,4 @@
-.container > * {
+.container > *, .container > ::slotted(*) {
 	display: inline-block;
 	width: 100%;
 	font-size: 100000%;

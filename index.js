@@ -5,7 +5,7 @@ function transformLayout(decl) {
 	var values = postcss.list.space(decl.value);
 	let level1Rule = decl.parent;
 	let level2Rule = postcss.rule({
-		selector: level1Rule.selector + " > *"
+		selector: level1Rule.selector + " > *, " + level1Rule.selector + " > ::slotted(*)"
 	});
 
 	var isFlex = "";
