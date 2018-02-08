@@ -26,8 +26,13 @@ function transformLayout(decl) {
 		});
 
 		level2Rule.append({
-			prop: "flex-grow",
+			prop: "--grow",
 			value: "1"
+		});
+
+		level2Rule.append({
+			prop: "flex-grow",
+			value: "var(--grow)"
 		});
 
 		level2Rule.append({
