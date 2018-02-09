@@ -20,27 +20,20 @@ function transformLayout(decl) {
 	}
 
 	if (isFlex) {
+
+		// Normal flex
 		decl.before({
 			prop: "display",
 			value: "flex"
 		});
-
 		level2Rule.append({
 			prop: "--grow",
 			value: "1"
 		});
-
 		level2Rule.append({
 			prop: "flex-grow",
 			value: "var(--grow)"
 		});
-
-		level2Rule.append({
-			prop: "flex-basis",
-			value: "0"
-		});
-
-
 
 		for (let _i = 0; _i < values.length; _i++) {
 			if (values[_i] === "wrap") {
@@ -49,16 +42,19 @@ function transformLayout(decl) {
 					value: "wrap"
 				});
 			}
-			if (values[_i] === "no-wrap") {
+			if (values[_i] === "nowrap") {
 				decl.before({
 					prop: "flex-wrap",
-					value: "no-wrap"
+					value: "nowrap"
 				});
 			}
 			if (values[_i] === "open") {
 				level2Rule.append({
 					prop: "flex-basis",
 					value: "100%"
+				},{
+					prop: "flex-shrink",
+					value: "0"
 				});
 			}
 			if (values[_i] === "closed") {
