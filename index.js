@@ -26,70 +26,73 @@ function transformLayout(decl) {
 			prop: "display",
 			value: "flex"
 		});
-		level2Rule.append({
-			prop: "--grow",
-			value: "1"
-		});
-		level2Rule.append({
-			prop: "flex-grow",
-			value: "var(--grow)"
-		});
+
+		var grow = true;
+		var column = false;
+		var wrap = false;
+		var open = false;
 
 		for (let _i = 0; _i < values.length; _i++) {
-			if (values[_i] === "wrap") {
-				decl.before({
-					prop: "flex-wrap",
-					value: "wrap"
-				});
-			}
-			if (values[_i] === "nowrap") {
-				decl.before({
-					prop: "flex-wrap",
-					value: "nowrap"
-				});
-			}
-			if (values[_i] === "open") {
-				level2Rule.append({
-					prop: "flex-basis",
-					value: "100%"
-				},{
-					prop: "flex-shrink",
-					value: "0"
-				});
-			}
-			if (values[_i] === "closed") {
-				decl.before({
-					prop: "flex-basis",
-					value: "auto"
-				});
-			}
 			if (values[_i] === "grow") {
-				decl.before({
-					prop: "flex-grow",
-					value: "1"
-				});
-			}
-			if (values[_i] === "shrink") {
-				level2Rule.append({
-					prop: "flex-shrink",
-					value: "0"
-				});
+				grow = true;
 			}
 			if (values[_i] === "column") {
-				decl.before({
-					prop: "flex-direction",
-					value: "column"
-				});
+				column = true;
 			}
-			if (values[_i] === "row") {
-				decl.before({
-					prop: "flex-direction",
-					value: "row"
-				});
+			if (values[_i] === "wrap") {
+				wrap = true;
+			}
+			if (values[_i] === "open") {
+				open = true;
 			}
 		}
 
+		if (grow) {
+			level2Rule.append({
+				prop: "--grow",
+				value: "1"
+			});
+			level2Rule.append({
+				prop: "flex-grow",
+				value: "var(--grow)"
+			});
+		}
+
+		if (column) {
+			decl.before({
+				prop: "flex-direction",
+				value: "column"
+			});
+			decl.before({
+				prop: "--direction-column",
+				value: "0px !important"
+			});
+		} else {
+			decl.before({
+				prop: "--direction-row",
+				value: "0px !important"
+			});
+		}
+
+		if (wrap) {
+			decl.before({
+				prop: "flex-wrap",
+				value: "wrap"
+			});
+		}
+
+		if (open) {
+			level2Rule.append({
+				prop: "flex-basis",
+				value: "100%"
+			},{
+				prop: "flex-shrink",
+				value: "0"
+			});
+		}
+
 		level1Rule.before(level2Rule);
+
 	}
 
 	if (isInlineBlock) {
@@ -117,87 +120,6 @@ function transformLayout(decl) {
 	}
 
 	decl.remove();
-
-
-
-	// values.forEach((value) => {
-	// 	if (value === "flex") {
-	// 		decl.before({
-	// 			prop: "display",
-	// 			value: "flex"
-	// 		});
-    //
-	// 		level2Rule.append({
-	// 			prop: "flex-grow",
-	// 			value: "1"
-	// 		});
-    //
-	// 		level1Rule.before(level2Rule);
-    //
-	// 	}
-	// 	if (value === "wrap") {
-	// 		decl.before({
-	// 			prop: "flex-wrap",
-	// 			value: "wrap"
-	// 		});
-	// 	}
-	// 	if (value === "open") {
-	// 		level2Rule.append({
-	// 			prop: "flex-basis",
-	// 			value: "100%"
-	// 		});
-    //
-	// 		// level1Rule.before(level2Rule);
-	// 	}
-    //
-	// 	if (value === "shrink") {
-	// 		level2Rule.append({
-	// 			prop: "flex-shrink",
-	// 			value: "0"
-	// 		});
-    //
-	// 		// level1Rule.before(level2Rule);
-	// 	}
-    //
-	// 	if (value === "column") {
-	// 		decl.before({
-	// 			prop: "flex-direction",
-	// 			value: "column"
-	// 		});
-	// 	}
-    //
-	// 	if (value === "inline-block") {
-	// 		decl.before({
-	// 			prop: "font-size",
-	// 			value: "0.1%"
-	// 		});
-    //
-	// 		level2Rule.append(
-	// 			{
-	// 				prop: "display",
-	// 				value: "inline-block"
-	// 			},
-	// 			{
-	// 				prop: "width",
-	// 				value: "100%"
-	// 			},
-	// 			{
-	// 				prop: "font-size",
-	// 				value: "100000%"
-	// 			}
-	// 		);
-    //
-	// 		level1Rule.before(level2Rule);
-	// 	}
-    //
-    //
-    //
-	// });
-
-
-
-
-
 }
 
 // plugin

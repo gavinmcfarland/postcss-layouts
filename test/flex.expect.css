@@ -7,5 +7,6 @@
 .container {
 	display: flex;
 	flex-direction: column;
+	--direction-column: 0px !important;
 	flex-wrap: wrap;
 }
