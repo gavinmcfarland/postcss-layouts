@@ -47,14 +47,17 @@ function transformLayout(decl) {
 			}
 		}
 
-		if (grow) {
-			level2Rule.append({
-				prop: "--grow",
-				value: "1"
-			});
+		if (grow && !column) {
 			level2Rule.append({
 				prop: "flex-grow",
-				value: "var(--grow)"
+				value: "var(--direction-row-grow)"
+			});
+		}
+
+		if (grow && column) {
+			level2Rule.append({
+				prop: "flex-grow",
+				value: "var(--direction-column-grow)"
 			});
 		}
 
@@ -64,13 +67,13 @@ function transformLayout(decl) {
 				value: "column"
 			});
 			decl.before({
-				prop: "--direction-column",
-				value: "0px !important"
+				prop: "--direction-column-grow",
+				value: "1"
 			});
 		} else {
 			decl.before({
-				prop: "--direction-row",
-				value: "0px !important"
+				prop: "--direction-row-grow",
+				value: "1"
 			});
 		}
 
