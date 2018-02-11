@@ -66,12 +66,12 @@ function transformLayout(decl) {
 				prop: "flex-direction",
 				value: "column"
 			});
-			decl.before({
+			level2Rule.append({
 				prop: "--direction-column-grow",
 				value: "1"
 			});
 		} else {
-			decl.before({
+			level2Rule.append({
 				prop: "--direction-row-grow",
 				value: "1"
 			});
