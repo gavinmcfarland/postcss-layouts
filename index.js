@@ -49,15 +49,23 @@ function transformLayout(decl) {
 
 		if (grow && !column) {
 			level2Rule.append({
+				prop: "--actual-column-grow",
+				value: "var(--column-grow)"
+			});
+			level2Rule.append({
 				prop: "flex-grow",
-				value: "var(--direction-row-grow)"
+				value: "var(--actual-column-grow)"
 			});
 		}
 
 		if (grow && column) {
 			level2Rule.append({
+				prop: "--actual-row-grow",
+				value: "var(--row-grow)"
+			});
+			level2Rule.append({
 				prop: "flex-grow",
-				value: "var(--direction-column-grow)"
+				value: "var(--actual-row-grow)"
 			});
 		}
 
@@ -66,13 +74,21 @@ function transformLayout(decl) {
 				prop: "flex-direction",
 				value: "column"
 			});
-			level2Rule.append({
-				prop: "--direction-column-grow",
+			decl.before({
+				prop: "--row-grow",
 				value: "1"
 			});
+			decl.before({
+				prop: "--column-grow",
+				value: "0"
+			});
 		} else {
-			level2Rule.append({
-				prop: "--direction-row-grow",
+			decl.before({
+				prop: "--row-grow",
+				value: "0"
+			});
+			decl.before({
+				prop: "--column-grow",
 				value: "1"
 			});
 		}
