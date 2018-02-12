@@ -1,12 +1,12 @@
 .container > *, .container > ::slotted(*) {
-	--actual-column-grow: var(--column-grow);
-	flex-grow: var(--actual-column-grow);
+	--column-grow: 0;
+	flex-grow: 1;
+	--row-grow: initial;
 	flex-basis: 100%;
 	flex-shrink: 0;
 }
 .container {
 	display: flex;
-	--row-grow: 0;
-	--column-grow: 1;
+	flex-direction: column;
 	flex-wrap: wrap;
 }
