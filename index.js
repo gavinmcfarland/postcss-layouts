@@ -5,7 +5,10 @@ function transformLayout(decl) {
 	var values = postcss.list.space(decl.value);
 	let level1Rule = decl.parent;
 	let level2Rule = postcss.rule({
-		selector: level1Rule.selector + " > *, " + level1Rule.selector + " > ::slotted(*)"
+		selector: level1Rule.selector + " > *"
+	});
+	let level2Slotted = postcss.rule({
+		selector: level1Rule.selector + " > ::slotted(*)"
 	});
 
 	var isFlex = "";
@@ -56,6 +59,14 @@ function transformLayout(decl) {
 				prop: "flex-grow",
 				value: "1"
 			});
+			level2Slotted.append({
+				prop: "--row-grow",
+				value: "0"
+			});
+			level2Slotted.append({
+				prop: "flex-grow",
+				value: "1"
+			});
 		}
 
 		if (grow && column) {
@@ -64,6 +75,14 @@ function transformLayout(decl) {
 				value: "0"
 			});
 			level2Rule.append({
+				prop: "flex-grow",
+				value: "1"
+			});
+			level2Slotted.append({
+				prop: "--column-grow",
+				value: "0"
+			});
+			level2Slotted.append({
 				prop: "flex-grow",
 				value: "1"
 			});
@@ -78,8 +97,16 @@ function transformLayout(decl) {
 				prop: "--row-grow",
 				value: "initial"
 			});
+			level2Slotted.append({
+				prop: "--row-grow",
+				value: "initial"
+			});
 		} else {
 			level2Rule.append({
+				prop: "--column-grow",
+				value: "initial"
+			});
+			level2Slotted.append({
 				prop: "--column-grow",
 				value: "initial"
 			});
@@ -100,9 +127,17 @@ function transformLayout(decl) {
 				prop: "flex-shrink",
 				value: "0"
 			});
+			level2Slotted.append({
+				prop: "flex-basis",
+				value: "100%"
+			},{
+				prop: "flex-shrink",
+				value: "0"
+			});
 		}
 
 		level1Rule.before(level2Rule);
+		level1Rule.before(level2Slotted);
 
 	}
 
