@@ -120,6 +120,18 @@ function transformLayout(decl) {
 				prop: "flex-wrap",
 				value: "wrap"
 			});
+
+		}
+
+		if (wrap && !open) {
+			level2Rule.append({
+				prop: "flex-basis",
+				value: "0"
+			});
+			level2Slotted.append({
+				prop: "flex-basis",
+				value: "0"
+			});
 		}
 
 		if (open) {
