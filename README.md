@@ -8,7 +8,7 @@
 A shorthand to apply sensible default layout characteristics using a preferred method.
 
 ```
-layout: flex | [grow, shrink] | [wrap, no-wrap] | [open, closed] | [row, column]
+layout: flex | [grow, shrink] | [wrap, nowrap] | [open, closed] | [row, column]
 ```
 
 Flex layout:
@@ -19,7 +19,7 @@ Flex layout:
 }
 ```
 
-By default all children are flex by default.
+Using flex alone will automatically make all container items flex to the containers width and wrap if equal to bigger than the containers width.
 
 
 Inline-block:
@@ -30,7 +30,7 @@ Inline-block:
 }
 ```
 
-This uses `display: inline-block` to give layout to the container's child elements. You can vertically and horizontally align elements. Whitespace between elements is removed using a font-size hack.
+This uses `display: inline-block` to give layout to the container's child elements.
 
 
 ## Setup
