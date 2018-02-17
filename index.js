@@ -32,12 +32,12 @@ function transformLayout(decl) {
 
 		var grow = true;
 		var column = false;
-		var wrap = false;
+		var wrap = true;
 		var open = false;
 
 		for (let _i = 0; _i < values.length; _i++) {
-			if (values[_i] === "grow") {
-				grow = true;
+			if (values[_i] === "shrink") {
+				grow = false;
 			}
 			if (values[_i] === "column") {
 				column = true;
@@ -45,23 +45,24 @@ function transformLayout(decl) {
 			if (values[_i] === "wrap") {
 				wrap = true;
 			}
+			if (values[_i] === "no-wrap") {
+				wrap = false;
+			}
+			if (values[_i] === "nowrap") {
+				wrap = false;
+			}
 			if (values[_i] === "open") {
 				open = true;
 			}
+			if (values[_i] === "closed") {
+				open = false;
+			}
 		}
 
-		if (grow && !column) {
-			level2Rule.append({
-				prop: "--row-grow",
-				value: "0"
-			});
+		if (grow) {
 			level2Rule.append({
 				prop: "flex-grow",
 				value: "1"
-			});
-			level2Slotted.append({
-				prop: "--row-grow",
-				value: "0"
 			});
 			level2Slotted.append({
 				prop: "flex-grow",
@@ -69,26 +70,36 @@ function transformLayout(decl) {
 			});
 		}
 
-		if (grow && column) {
+		if (!column) {
 			level2Rule.append({
-				prop: "--column-grow",
+				prop: "--row-grow",
+				value: "0"
+			});
+
+			level2Slotted.append({
+				prop: "--row-grow",
 				value: "0"
 			});
 			level2Rule.append({
-				prop: "flex-grow",
-				value: "1"
+				prop: "--column-grow",
+				value: "initial"
 			});
 			level2Slotted.append({
 				prop: "--column-grow",
-				value: "0"
+				value: "initial"
 			});
-			level2Slotted.append({
-				prop: "flex-grow",
-				value: "1"
-			});
+
 		}
 
 		if (column) {
+			level2Rule.append({
+				prop: "--column-grow",
+				value: "0"
+			});
+			level2Slotted.append({
+				prop: "--column-grow",
+				value: "0"
+			});
 			decl.before({
 				prop: "flex-direction",
 				value: "column"
@@ -101,16 +112,8 @@ function transformLayout(decl) {
 				prop: "--row-grow",
 				value: "initial"
 			});
-		} else {
-			level2Rule.append({
-				prop: "--column-grow",
-				value: "initial"
-			});
-			level2Slotted.append({
-				prop: "--column-grow",
-				value: "initial"
-			});
 		}
+
 
 		if (wrap) {
 			decl.before({
