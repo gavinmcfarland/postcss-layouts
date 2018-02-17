@@ -123,16 +123,10 @@ function transformLayout(decl) {
 			level2Rule.append({
 				prop: "flex-basis",
 				value: "100%"
-			},{
-				prop: "flex-shrink",
-				value: "0"
 			});
 			level2Slotted.append({
 				prop: "flex-basis",
 				value: "100%"
-			},{
-				prop: "flex-shrink",
-				value: "0"
 			});
 		}
 

@@ -3,14 +3,12 @@
 	flex-grow: 1;
 	--row-grow: initial;
 	flex-basis: 100%;
-	flex-shrink: 0;
 }
 .container > ::slotted(*) {
 	--column-grow: 0;
 	flex-grow: 1;
 	--row-grow: initial;
 	flex-basis: 100%;
-	flex-shrink: 0;
 }
 .container {
 	display: flex;
