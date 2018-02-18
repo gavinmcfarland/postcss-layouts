@@ -1,17 +1,17 @@
 .container > * {
-	flex-grow: 1;
-	--column-grow: 0;
-	--row-grow: initial;
-	flex-basis: 100%;
+    --column-grow: 0;
+    --row-grow: initial;
+    flex-grow: 1;
+    flex-basis: 100%;
 }
 .container > ::slotted(*) {
-	flex-grow: 1;
-	--column-grow: 0;
-	--row-grow: initial;
-	flex-basis: 100%;
+    --column-grow: 0;
+    --row-grow: initial;
+    flex-grow: 1;
+    flex-basis: 100%;
 }
 .container {
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

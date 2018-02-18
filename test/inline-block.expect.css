@@ -1,8 +1,8 @@
 .container > * {
-	display: inline-block;
-	width: 100%;
-	font-size: 100000%;
+    display: inline-block;
+    width: 100%;
+    font-size: 100000%;
 }
 .container {
-	font-size: 0.1%;
+    font-size: 0.1%;
 }

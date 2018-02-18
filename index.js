@@ -1,178 +1,132 @@
-// tooling
 import postcss from "postcss";
 
-function transformLayout(decl) {
-	var values = postcss.list.space(decl.value);
-	let level1Rule = decl.parent;
-	let level2Rule = postcss.rule({
-		selector: level1Rule.selector + " > *"
-	});
-	let level2Slotted = postcss.rule({
-		selector: level1Rule.selector + " > ::slotted(*)"
-	});
+function layoutProp(decl) {
 
-	var isFlex = "";
-	let isInlineBlock = "";
+	const childSelector = " > *";
+	const slottedSelector = " > ::slotted(*)";
+	const originalRule = decl.parent;
+	const levelTwoRule = postcss.rule({selector: originalRule.selector + childSelector});
+	const levelTwoSlotted = postcss.rule({selector: originalRule.selector + slottedSelector});
+	const values = postcss.list.space(decl.value);
 
-	if (values[0] === "flex") {
-		isFlex = true;
-	}
+	// Check first value for layout method
+	let flex = values[0] === "flex";
+	let inlineBlock = values[0] === "inline-block";
 
-	if (values[0] === "inline-block") {
-		isInlineBlock = true;
-	}
+	// If flex
+	if (flex) {
 
-	if (isFlex) {
+		// Add new rules
+		originalRule.before(levelTwoRule);
+		originalRule.before(levelTwoSlotted);
 
-		// Normal flex
-		decl.before({
-			prop: "display",
-			value: "flex"
-		});
+		decl.before(
+			`display: flex;`
+		);
 
-		var grow = true;
-		var column = false;
-		var wrap = true;
-		var open = false;
+		// Parameters
+		let column 	= false;
+		let wrap 	= true;
+		let open 	= false;
+		let grow 	= true;
 
 		for (let _i = 0; _i < values.length; _i++) {
-			if (values[_i] === "shrink") {
-				grow = false;
+			switch (values[_i]) {
+				case "column":
+					column = true;
+					break;
+				case "nowrap" || "no-wrap":
+					wrap = false;
+					break;
+				case "open":
+					open = true;
+					break;
+				case "shrink":
+					grow = false;
+					break;
+				default:
+					grow = true;
 			}
-			if (values[_i] === "column") {
-				column = true;
-			}
-			if (values[_i] === "wrap") {
-				wrap = true;
-			}
-			if (values[_i] === "no-wrap") {
-				wrap = false;
-			}
-			if (values[_i] === "nowrap") {
-				wrap = false;
-			}
-			if (values[_i] === "open") {
-				open = true;
-			}
-			if (values[_i] === "closed") {
-				open = false;
-			}
-		}
-
-		if (grow) {
-			level2Rule.append({
-				prop: "flex-grow",
-				value: "1"
-			});
-			level2Slotted.append({
-				prop: "flex-grow",
-				value: "1"
-			});
 		}
 
 		if (!column) {
-			level2Rule.append({
-				prop: "--row-grow",
-				value: "0"
-			});
-
-			level2Slotted.append({
-				prop: "--row-grow",
-				value: "0"
-			});
-			level2Rule.append({
-				prop: "--column-grow",
-				value: "initial"
-			});
-			level2Slotted.append({
-				prop: "--column-grow",
-				value: "initial"
-			});
-
+			levelTwoRule.append(
+				`--row-grow: 0;
+				 --column-grow: initial;`
+			);
+			levelTwoSlotted.append(
+				`--row-grow: 0;
+				 --column-grow: initial;`
+			);
 		}
-
 		if (column) {
-			level2Rule.append({
-				prop: "--column-grow",
-				value: "0"
-			});
-			level2Slotted.append({
-				prop: "--column-grow",
-				value: "0"
-			});
-			decl.before({
-				prop: "flex-direction",
-				value: "column"
-			});
-			level2Rule.append({
-				prop: "--row-grow",
-				value: "initial"
-			});
-			level2Slotted.append({
-				prop: "--row-grow",
-				value: "initial"
-			});
+			decl.before(
+				`flex-direction: column;`
+			);
+			levelTwoRule.append(
+				`--column-grow: 0;
+				 --row-grow: initial;`
+			);
+			levelTwoSlotted.append(
+				`--column-grow: 0;
+				 --row-grow: initial;`
+			);
 		}
-
-
 		if (wrap) {
-			decl.before({
-				prop: "flex-wrap",
-				value: "wrap"
-			});
-
+			decl.before(
+				`flex-wrap: wrap;`
+			);
 		}
-
 		if (wrap && !open) {
-			level2Rule.append({
-				prop: "flex-basis",
-				value: "0"
-			});
-			level2Slotted.append({
-				prop: "flex-basis",
-				value: "0"
-			});
+			levelTwoRule.append(
+				`flex-basis: 0;`
+			);
+			levelTwoSlotted.append(
+				`flex-basis: 0;`
+			);
 		}
+		if (grow) {
+			levelTwoRule.append(
+				`flex-grow: 1;`
+			);
 
+			levelTwoSlotted.append(
+				`flex-grow: 1;`
+			);
+		}
 		if (open) {
-			level2Rule.append({
-				prop: "flex-basis",
-				value: "100%"
-			});
-			level2Slotted.append({
-				prop: "flex-basis",
-				value: "100%"
-			});
+			levelTwoRule.append(
+				`flex-basis: 100%;`
+			);
+			levelTwoSlotted.append(
+				`flex-basis: 100%;`
+			);
 		}
-
-		level1Rule.before(level2Rule);
-		level1Rule.before(level2Slotted);
 
 	}
 
-	if (isInlineBlock) {
-		decl.before({
-			prop: "font-size",
-			value: "0.1%"
-		});
+	// If inline-block
+	if (inlineBlock) {
 
-		level2Rule.append(
-			{
-				prop: "display",
-				value: "inline-block"
-			},
-			{
-				prop: "width",
-				value: "100%"
-			},
-			{
-				prop: "font-size",
-				value: "100000%"
-			}
+		// Add new rule
+		originalRule.before(levelTwoRule);
+
+		originalRule.append(
+			`font-size: 0.1%;`
 		);
 
-		level1Rule.before(level2Rule);
+		levelTwoRule.append(`
+			display: inline-block;
+			width: 100%;
+			font-size: 100000%`
+		);
+
 	}
+
+	// Tidy indents
+	originalRule.walk(i => { delete i.raws.before });
+	levelTwoRule.walk(i => { delete i.raws.before });
+	levelTwoSlotted.walk(i => { delete i.raws.before });
 
 	decl.remove();
 }
@@ -184,7 +138,7 @@ export default postcss.plugin("postcss-postcss-layouts", opts => {
 	return (root) => {
 		root.walkDecls(function(decl) {
 			if (decl.prop === "layout") {
-				transformLayout(decl);
+				layoutProp(decl);
 			}
 		});
 	};
