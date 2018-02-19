@@ -22,7 +22,7 @@ layout: flex [options];
 Example:
 ```css
 .container {
-    layout: flex column wrap;
+    layout: flex column nowrap;
 }
 ```
 
