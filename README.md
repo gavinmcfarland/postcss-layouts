@@ -5,24 +5,37 @@
 [![Windows Build Status][win-img]][win-url]
 [![Gitter Chat][git-img]][git-url]
 
-A shorthand to apply sensible default layout characteristics using a preferred method.
+A shorthand for applying sensible layout methods.
+
+## Flex
 
 ```
-layout: flex | [grow, shrink] | [wrap, nowrap] | [open, closed] | [row, column]
+layout: flex [options];
 ```
 
-Flex layout:
+**options**
+- `shrink` Makes container items shrink to width of its content
+- `column` Changes direction of container items
+- `nowrap` Prevents container items from wrapping
+- `open`   Sets width of container items to full width of container
 
+Example:
 ```css
 .container {
-    layout: flex;
+    layout: flex column wrap;
 }
 ```
 
-Using flex alone will automatically make all container items flex to the containers width and wrap if equal to bigger than the containers width.
+By default flex automatically makes container items grow to available space and wrap if equal to bigger than the container's width.
 
 
-Inline-block:
+## Inline Block
+
+```
+layout: inline-block;
+```
+
+Example:
 
 ```css
 .container {
@@ -30,7 +43,7 @@ Inline-block:
 }
 ```
 
-This uses `display: inline-block` to give layout to the container's child elements.
+Uses `inline-block` technique to layout container items.
 
 
 ## Setup
