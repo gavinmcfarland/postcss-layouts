@@ -1,6 +1,6 @@
 {
   "name": "postcss-layouts",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A shorthand to apply sensible default layout characteristics using a preferred method.",
   "author": "Gavin <someotter@tadpot.com>",
   "license": "CC0-1.0",
