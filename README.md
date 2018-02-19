@@ -9,7 +9,7 @@ A shorthand for applying sensible layout methods.
 
 ## Flex
 
-```
+```css
 layout: flex [options];
 ```
 
@@ -31,7 +31,7 @@ By default flex automatically makes container items grow to available space and 
 
 ## Inline Block
 
-```
+```css
 layout: inline-block;
 ```
 
