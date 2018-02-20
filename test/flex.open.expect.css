@@ -1,12 +1,8 @@
 .container > * {
-    --row-grow: 0;
-    --column-grow: initial;
     flex-grow: 1;
     flex-basis: 100%;
 }
 .container > ::slotted(*) {
-    --row-grow: 0;
-    --column-grow: initial;
     flex-grow: 1;
     flex-basis: 100%;
 }

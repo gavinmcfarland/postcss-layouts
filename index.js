@@ -49,28 +49,28 @@ function layoutProp(decl) {
 			}
 		}
 
-		if (!column) {
-			levelTwoRule.append(
-				`--row-grow: 0;
-				 --column-grow: initial;`
-			);
-			levelTwoSlotted.append(
-				`--row-grow: 0;
-				 --column-grow: initial;`
-			);
-		}
+		// if (!column) {
+		// 	levelTwoRule.append(
+		// 		`--row-grow: 0;
+		// 		 --column-grow: initial;`
+		// 	);
+		// 	levelTwoSlotted.append(
+		// 		`--row-grow: 0;
+		// 		 --column-grow: initial;`
+		// 	);
+		// }
 		if (column) {
 			decl.before(
 				`flex-direction: column;`
 			);
-			levelTwoRule.append(
-				`--column-grow: 0;
-				 --row-grow: initial;`
-			);
-			levelTwoSlotted.append(
-				`--column-grow: 0;
-				 --row-grow: initial;`
-			);
+			// levelTwoRule.append(
+			// 	`--column-grow: 0;
+			// 	 --row-grow: initial;`
+			// );
+			// levelTwoSlotted.append(
+			// 	`--column-grow: 0;
+			// 	 --row-grow: initial;`
+			// );
 		}
 		if (wrap) {
 			decl.before(
