@@ -1,7 +1,10 @@
 module.exports = {
 	'postcss-postcss-layouts': {
 		'flex': {
-			message: 'supports flex'
+			message: 'supports flex',
+			options: {
+				webComponents: true
+			}
 		},
 		'flex.shrink': {
 			message: 'supports flex shrink'

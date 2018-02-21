@@ -1,6 +1,7 @@
 import postcss from "postcss";
 
-function layoutProp(decl) {
+function layoutProp(decl, webComponents) {
+
 
 	const childSelector = " > *";
 	const slottedSelector = " > ::slotted(*)";
@@ -18,11 +19,14 @@ function layoutProp(decl) {
 
 		// Add new rules
 		originalRule.before(levelTwoRule);
-		originalRule.before(levelTwoSlotted);
+		if (webComponents) {
+			originalRule.before(levelTwoSlotted);
+		}
 
 		decl.before(
 			`display: flex;`
 		);
+
 
 		// Parameters
 		let column 	= false;
@@ -48,29 +52,10 @@ function layoutProp(decl) {
 					grow = true;
 			}
 		}
-
-		// if (!column) {
-		// 	levelTwoRule.append(
-		// 		`--row-grow: 0;
-		// 		 --column-grow: initial;`
-		// 	);
-		// 	levelTwoSlotted.append(
-		// 		`--row-grow: 0;
-		// 		 --column-grow: initial;`
-		// 	);
-		// }
 		if (column) {
 			decl.before(
 				`flex-direction: column;`
 			);
-			// levelTwoRule.append(
-			// 	`--column-grow: 0;
-			// 	 --row-grow: initial;`
-			// );
-			// levelTwoSlotted.append(
-			// 	`--column-grow: 0;
-			// 	 --row-grow: initial;`
-			// );
 		}
 		if (wrap) {
 			decl.before(
@@ -81,26 +66,31 @@ function layoutProp(decl) {
 			levelTwoRule.append(
 				`flex-basis: 0;`
 			);
-			levelTwoSlotted.append(
-				`flex-basis: 0;`
-			);
+			if (webComponents) {
+				levelTwoSlotted.append(
+					`flex-basis: 0;`
+				);
+			}
 		}
 		if (grow) {
 			levelTwoRule.append(
 				`flex-grow: 1;`
 			);
-
-			levelTwoSlotted.append(
-				`flex-grow: 1;`
-			);
+			if (webComponents) {
+				levelTwoSlotted.append(
+					`flex-grow: 1;`
+				);
+			}
 		}
 		if (open) {
 			levelTwoRule.append(
 				`flex-basis: 100%;`
 			);
-			levelTwoSlotted.append(
-				`flex-basis: 100%;`
-			);
+			if (webComponents) {
+				levelTwoSlotted.append(
+					`flex-basis: 100%;`
+				);
+			}
 		}
 
 	}
@@ -133,12 +123,14 @@ function layoutProp(decl) {
 
 // plugin
 export default postcss.plugin("postcss-postcss-layouts", opts => {
-	console.log("opts", opts);
-
+	var webComponents = false;
+	if (opts && opts.webComponents) {
+		webComponents = true;
+	}
 	return (root) => {
 		root.walkDecls(function(decl) {
 			if (decl.prop === "layout") {
-				layoutProp(decl);
+				layoutProp(decl, webComponents);
 			}
 		});
 	};

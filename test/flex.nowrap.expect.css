@@ -1,9 +1,6 @@
 .container > * {
     flex-grow: 1;
 }
-.container > ::slotted(*) {
-    flex-grow: 1;
-}
 .container {
     display: flex;
 }
